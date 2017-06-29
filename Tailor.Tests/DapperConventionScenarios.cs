@@ -13,7 +13,7 @@ namespace Tailor.Tests
     {
         private class SelectStarQuery : DapperQuery<string>
         {
-            public SelectStarQuery(ConnectionFactory connectionFactory)
+            public SelectStarQuery(IConnectionFactory connectionFactory)
             {
             }
 
@@ -39,7 +39,7 @@ namespace Tailor.Tests
 
         private class NonSelectStarQuery : DapperQuery<string>
         {
-            public NonSelectStarQuery(ConnectionFactory connectionFactory)
+            public NonSelectStarQuery(IConnectionFactory connectionFactory)
             {
             }
 
@@ -65,9 +65,9 @@ namespace Tailor.Tests
 
         public class FailingQuery : AsyncDapperQuery<Widget[]>
         {
-            private readonly ConnectionFactory _connectionFactory;
+            private readonly IConnectionFactory _connectionFactory;
 
-            public FailingQuery(ConnectionFactory connectionFactory)
+            public FailingQuery(IConnectionFactory connectionFactory)
             {
                 _connectionFactory = connectionFactory;
             }
@@ -97,9 +97,9 @@ namespace Tailor.Tests
 
         public class SucceedingQuery : AsyncDapperQuery<Widget[]>
         {
-            private readonly ConnectionFactory _connectionFactory;
+            private readonly IConnectionFactory _connectionFactory;
 
-            public SucceedingQuery(ConnectionFactory connectionFactory)
+            public SucceedingQuery(IConnectionFactory connectionFactory)
             {
                 _connectionFactory = connectionFactory;
             }
@@ -134,9 +134,9 @@ namespace Tailor.Tests
 
         public class FailingQueryWithParameter : AsyncDapperQuery<QueryParameter, Widget>
         {
-            private readonly ConnectionFactory _connectionFactory;
+            private readonly IConnectionFactory _connectionFactory;
 
-            public FailingQueryWithParameter(ConnectionFactory connectionFactory)
+            public FailingQueryWithParameter(IConnectionFactory connectionFactory)
             {
                 _connectionFactory = connectionFactory;
             }
@@ -166,9 +166,9 @@ namespace Tailor.Tests
 
         public class SucceedingQueryWithParameter : AsyncDapperQuery<QueryParameter, Widget>
         {
-            private readonly ConnectionFactory _connectionFactory;
+            private readonly IConnectionFactory _connectionFactory;
 
-            public SucceedingQueryWithParameter(ConnectionFactory connectionFactory)
+            public SucceedingQueryWithParameter(IConnectionFactory connectionFactory)
             {
                 _connectionFactory = connectionFactory;
             }
@@ -199,9 +199,9 @@ namespace Tailor.Tests
 
         public class SucceedingQueryWithParameterAndExceptionalException : AsyncDapperQuery<QueryParameter, Widget>
         {
-            private readonly ConnectionFactory _connectionFactory;
+            private readonly IConnectionFactory _connectionFactory;
 
-            public SucceedingQueryWithParameterAndExceptionalException(ConnectionFactory connectionFactory)
+            public SucceedingQueryWithParameterAndExceptionalException(IConnectionFactory connectionFactory)
             {
                 _connectionFactory = connectionFactory;
             }
@@ -245,7 +245,7 @@ namespace Tailor.Tests
 
         public class QueryWithWrongParameter : DapperQuery<WrongParameter, Widget>
         {
-            public QueryWithWrongParameter(ConnectionFactory connectionFactory)
+            public QueryWithWrongParameter(IConnectionFactory connectionFactory)
             {
             }
 
@@ -276,7 +276,7 @@ namespace Tailor.Tests
 
         public class QueryWithCorrectParameter : DapperQuery<CorrectParameter, Widget>
         {
-            public QueryWithCorrectParameter(ConnectionFactory connectionFactory)
+            public QueryWithCorrectParameter(IConnectionFactory connectionFactory)
             {
             }
 

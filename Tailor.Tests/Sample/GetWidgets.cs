@@ -6,9 +6,9 @@ namespace Tailor.Tests.Sample
 {
     public class GetWidgets : AsyncDapperQuery<Widget[]>
     {
-        private readonly ConnectionFactory _connectionFactory;
+        private readonly IConnectionFactory _connectionFactory;
 
-        public GetWidgets(ConnectionFactory connectionFactory)
+        public GetWidgets(IConnectionFactory connectionFactory)
         {
             _connectionFactory = connectionFactory;
         }
