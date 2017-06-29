@@ -166,3 +166,5 @@ FakesAssemblies/
 
 # nuget pack output
 *.nupkg
+
+packages/*/*.nupkg
