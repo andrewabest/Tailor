@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Conventional;
 using NUnit.Framework;
@@ -12,7 +13,8 @@ namespace Tailor.Tests.Sample
         {
             var results = await Task.WhenAll(
                 TheTailor
-                    .Create(TestDbConnectionString, typeof(IAmTheQueryAssembly).Assembly.GetExportedTypes())
+                    .Create(TestDbConnectionString, 
+                        typeof(IAmTheQueryAssembly).Assembly.GetExportedTypes().Where(x => x.Namespace == "Tailor.Tests.Sample").ToArray())
                     .Measure(typeof(NotFoundException)));
 
             foreach (var result in results)

@@ -92,7 +92,7 @@ namespace Tailor.Tests
             var result = await new DapperQueriesWithoutParametersMustExecuteSuccessfully(TestDbConnectionString)
                 .IsSatisfiedBy(typeof(FailingQuery));
 
-            result.Failures.ShouldBe(new [] { "Query Tailor.Tests.DapperConvenion failed to execute with exception: Invalid column name 'ColumnThatDoesNotExist'." });
+            result.Failures.ShouldBe(new [] { "Query Tailor.Tests.DapperConventionScenarios+FailingQuery failed to execute with exception: Invalid column name 'ColumnThatDoesNotExist'." });
         }
 
         public class SucceedingQuery : AsyncDapperQuery<Widget[]>
