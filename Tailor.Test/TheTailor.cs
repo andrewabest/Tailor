@@ -42,13 +42,13 @@ namespace Tailor.Test
         {
             return new[]
             {
-                _dapperQueries.MustConformTo(new DapperQueriesWithParametersMustExecuteSuccessfully(_connectionString, exceptionalExceptions)),
-                Task.FromResult(_dapperQueries.MustConformTo(new DapperQueriesWithParametersMustHaveAParametersListThatMatchesTheDefinedSql(_connectionString))),
-                _dapperQueriesThatHaveNoParameters.MustConformTo(new DapperQueriesWithoutParametersMustExecuteSuccessfully(_connectionString)),
+                Task.FromResult(_dapperQueryParameters.MustConformTo(Convention.MustHaveAppropriateConstructors)),
                 Task.FromResult(
                     _dapperQueries.Union(_dapperQueriesThatHaveNoParameters)
-                        .MustConformTo(new DapperQueriesMustNotDoSelectStar(_connectionString))),
-                Task.FromResult(_dapperQueryParameters.MustConformTo(Convention.MustHaveAppropriateConstructors))
+                    .MustConformTo(new DapperQueriesMustNotDoSelectStar(_connectionString))),
+                Task.FromResult(_dapperQueries.MustConformTo(new DapperQueriesWithParametersMustHaveAParametersListThatMatchesTheDefinedSql(_connectionString))),
+                _dapperQueries.MustConformTo(new DapperQueriesWithParametersMustExecuteSuccessfully(_connectionString, exceptionalExceptions)),
+                _dapperQueriesThatHaveNoParameters.MustConformTo(new DapperQueriesWithoutParametersMustExecuteSuccessfully(_connectionString)),
             };
         }
     }
