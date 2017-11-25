@@ -36,9 +36,7 @@ namespace Tailor.Test
 
             try
             {
-                var maybeAsyncResult = query.GetType().GetMethod("Execute")
-                    .Invoke(query, new object[] {queryParameters}) as Task;
-                if (maybeAsyncResult != null)
+                if (query.GetType().GetMethod("Execute").Invoke(query, new object[] {queryParameters}) is Task maybeAsyncResult)
                     await maybeAsyncResult;
             }
             catch (Exception e) when (!_exceptionalExceptions.Contains(e.GetType()))

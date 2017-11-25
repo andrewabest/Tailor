@@ -8,7 +8,7 @@ namespace Tailor.Tests
     public abstract class DbTest
     {
 #if DEBUG
-        protected const string TestDbConnectionString = @"Server=(LocalDB)\MSSQLLocalDB;Database=Tailor;Integrated Security=true;";
+        protected const string TestDbConnectionString = @"Server=.\SQLEXPRESS;Database=Tailor;Integrated Security=true;";
 #else
         protected const string TestDbConnectionString = @"Server=(local)\SQL2014;Database=Tailor;User ID=sa;Password=Password12!";
 #endif
