@@ -6,16 +6,16 @@ namespace Tailor.Test
 {
     public class DapperQueriesMustNotDoSelectStar : ConventionSpecification
     {
-        private readonly string _connectionString;
+        private readonly IConnectionFactory _connectionFactory;
 
-        public DapperQueriesMustNotDoSelectStar(string connectionString)
+        public DapperQueriesMustNotDoSelectStar(IConnectionFactory connectionFactory)
         {
-            _connectionString = connectionString;
+            _connectionFactory = connectionFactory;
         }
             
         public override ConventionResult IsSatisfiedBy(Type type)
         {
-            var query = (IDapperQuery) Activator.CreateInstance(type, new ConnectionFactory(_connectionString));
+            var query = (IDapperQuery) Activator.CreateInstance(type, _connectionFactory);
 
             return query.GetSql().Contains("*")
                 ? ConventionResult.NotSatisfied(type.FullName, FailureMessage)
