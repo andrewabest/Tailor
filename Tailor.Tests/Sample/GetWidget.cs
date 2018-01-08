@@ -16,7 +16,7 @@ namespace Tailor.Tests.Sample
         public override async Task<Widget> Execute(GetWidgetParameters parameters)
         {
             Widget result;
-            using (var connection = _connectionFactory.Connection)
+            using (var connection = _connectionFactory.Create())
             {
                 result =
                     (await connection.QueryAsync<Widget>(GetSql(), parameters.ToDapperParameters()))

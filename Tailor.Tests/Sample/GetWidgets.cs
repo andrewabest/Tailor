@@ -16,7 +16,7 @@ namespace Tailor.Tests.Sample
         public override async Task<Widget[]> Execute()
         {
             Widget[] result;
-            using (var connection = _connectionFactory.Connection)
+            using (var connection = _connectionFactory.Create())
             {
                 result =
                     (await connection.QueryAsync<Widget>(GetSql())).ToArray();

@@ -4,6 +4,6 @@ namespace Tailor
 {
     public interface IConnectionFactory
     {
-        IDbConnection Connection { get; }
+        IDbConnection Create();
     }
 }
