@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace Tailor
@@ -11,7 +12,7 @@ namespace Tailor
             Connection.Open();
         }
 
-        public SqlConnection Connection { get; }
+        public IDbConnection Connection { get; }
 
         public void Dispose()
         {
