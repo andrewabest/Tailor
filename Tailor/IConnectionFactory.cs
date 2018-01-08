@@ -1,9 +1,9 @@
-using System.Data.SqlClient;
+using System.Data;
 
 namespace Tailor
 {
     public interface IConnectionFactory
     {
-        SqlConnection Connection { get; }
+        IDbConnection Connection { get; }
     }
 }
