@@ -8,14 +8,19 @@ namespace Tailor.Test
 {
     public class TheTailor
     {
-        private readonly string _connectionString;
+        private readonly IConnectionFactory _connectionFactory;
         private readonly IEnumerable<Type> _dapperQueries;
         private readonly IEnumerable<Type> _dapperQueriesThatHaveNoParameters;
         private readonly IEnumerable<Type> _dapperQueryParameters;
 
         protected TheTailor(string connectionString, IEnumerable<Type> dapperQueries, IEnumerable<Type> dapperQueriesThatHaveNoParameters, IEnumerable<Type> dapperQueryParameters)
+            : this(new ConnectionFactory(connectionString), dapperQueries, dapperQueriesThatHaveNoParameters, dapperQueryParameters)
         {
-            _connectionString = connectionString;
+        }
+
+        protected TheTailor(IConnectionFactory connectionFactory, IEnumerable<Type> dapperQueries, IEnumerable<Type> dapperQueriesThatHaveNoParameters, IEnumerable<Type> dapperQueryParameters)
+        {
+            _connectionFactory = connectionFactory;
             _dapperQueries = dapperQueries;
             _dapperQueriesThatHaveNoParameters = dapperQueriesThatHaveNoParameters;
             _dapperQueryParameters = dapperQueryParameters;
@@ -45,10 +50,10 @@ namespace Tailor.Test
                 Task.FromResult(_dapperQueryParameters.MustConformTo(Convention.MustHaveAppropriateConstructors)),
                 Task.FromResult(
                     _dapperQueries.Union(_dapperQueriesThatHaveNoParameters)
-                    .MustConformTo(new DapperQueriesMustNotDoSelectStar(_connectionString))),
-                Task.FromResult(_dapperQueries.MustConformTo(new DapperQueriesWithParametersMustHaveAParametersListThatMatchesTheDefinedSql(_connectionString))),
-                _dapperQueries.MustConformTo(new DapperQueriesWithParametersMustExecuteSuccessfully(_connectionString, exceptionalExceptions)),
-                _dapperQueriesThatHaveNoParameters.MustConformTo(new DapperQueriesWithoutParametersMustExecuteSuccessfully(_connectionString)),
+                    .MustConformTo(new DapperQueriesMustNotDoSelectStar(_connectionFactory))),
+                Task.FromResult(_dapperQueries.MustConformTo(new DapperQueriesWithParametersMustHaveAParametersListThatMatchesTheDefinedSql(_connectionFactory))),
+                _dapperQueries.MustConformTo(new DapperQueriesWithParametersMustExecuteSuccessfully(_connectionFactory, exceptionalExceptions)),
+                _dapperQueriesThatHaveNoParameters.MustConformTo(new DapperQueriesWithoutParametersMustExecuteSuccessfully(_connectionFactory)),
             };
         }
     }
