@@ -7,16 +7,16 @@ namespace Tailor.Test
 {
     public class DapperQueriesWithoutParametersMustExecuteSuccessfully : AsyncConventionSpecification
     {
-        private readonly string _connectionString;
+        private readonly IConnectionFactory _connectionFactory;
 
-        public DapperQueriesWithoutParametersMustExecuteSuccessfully(string connectionString)
+        public DapperQueriesWithoutParametersMustExecuteSuccessfully(IConnectionFactory connectionFactory)
         {
-            _connectionString = connectionString;
+            _connectionFactory = connectionFactory;
         }
 
         public override async Task<ConventionResult> IsSatisfiedBy(Type type)
         {
-            var query = (IDapperQuery) Activator.CreateInstance(type, new ConnectionFactory(_connectionString));
+            var query = (IDapperQuery) Activator.CreateInstance(type, _connectionFactory);
 
             try
             {

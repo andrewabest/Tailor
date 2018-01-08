@@ -19,7 +19,7 @@ namespace Tailor.Tests
 
             public override string Execute()
             {
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
             }
 
             public override string GetSql()
@@ -31,7 +31,7 @@ namespace Tailor.Tests
         [Test]
         public void DapperQueriesMustNotDoSelectStar_FailsWhenStarIsPresent()
         {
-            new DapperQueriesMustNotDoSelectStar(TestDbConnectionString)
+            new DapperQueriesMustNotDoSelectStar(new SqlConnectionFactory(TestDbConnectionString))
                 .IsSatisfiedBy(typeof(SelectStarQuery))
                 .Failures
                 .ShouldBe(new [] { "Query Sql uses a * parameter. This is bad for ongoing maintainability. Please provide an explicit column list in selects." });
@@ -45,7 +45,7 @@ namespace Tailor.Tests
 
             public override string Execute()
             {
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
             }
 
             public override string GetSql()
@@ -57,7 +57,7 @@ namespace Tailor.Tests
         [Test]
         public void DapperQueriesMustNotDoSelectStar_Success()
         {
-            new DapperQueriesMustNotDoSelectStar(TestDbConnectionString)
+            new DapperQueriesMustNotDoSelectStar(new SqlConnectionFactory(TestDbConnectionString))
                 .IsSatisfiedBy(typeof(NonSelectStarQuery))
                 .IsSatisfied
                 .ShouldBeTrue();
@@ -74,7 +74,7 @@ namespace Tailor.Tests
 
             public override async Task<Widget[]> Execute()
             {
-                using (var connection = _connectionFactory.Connection)
+                using (var connection = _connectionFactory.Create())
                 {
                     return (await connection.QueryAsync<Widget>(GetSql())).ToArray();
                 }
@@ -89,7 +89,7 @@ namespace Tailor.Tests
         [Test]
         public async Task DapperQueriesWithoutParametersMustExecuteSuccessfully_FailsWhenQueryFailsToExecute()
         {
-            var result = await new DapperQueriesWithoutParametersMustExecuteSuccessfully(TestDbConnectionString)
+            var result = await new DapperQueriesWithoutParametersMustExecuteSuccessfully(new SqlConnectionFactory(TestDbConnectionString))
                 .IsSatisfiedBy(typeof(FailingQuery));
 
             result.Failures.ShouldBe(new [] { "Query Tailor.Tests.DapperConventionScenarios+FailingQuery failed to execute with exception: Invalid column name 'ColumnThatDoesNotExist'." });
@@ -106,7 +106,7 @@ namespace Tailor.Tests
 
             public override async Task<Widget[]> Execute()
             {
-                using (var connection = _connectionFactory.Connection)
+                using (var connection = _connectionFactory.Create())
                 {
                     return (await connection.QueryAsync<Widget>(GetSql())).ToArray();
                 }
@@ -121,7 +121,7 @@ namespace Tailor.Tests
         [Test]
         public async Task DapperQueriesWithoutParametersMustExecuteSuccessfully_Success()
         {
-            var result = await new DapperQueriesWithoutParametersMustExecuteSuccessfully(TestDbConnectionString)
+            var result = await new DapperQueriesWithoutParametersMustExecuteSuccessfully(new SqlConnectionFactory(TestDbConnectionString))
                 .IsSatisfiedBy(typeof(SucceedingQuery));
 
             result.IsSatisfied.ShouldBeTrue();
@@ -143,7 +143,7 @@ namespace Tailor.Tests
 
             public override async Task<Widget> Execute(QueryParameter parameter)
             {
-                using (var connection = _connectionFactory.Connection)
+                using (var connection = _connectionFactory.Create())
                 {
                     return (await connection.QueryAsync<Widget>(GetSql(), parameter.ToDapperParameters())).SingleOrDefault();
                 }
@@ -158,7 +158,7 @@ namespace Tailor.Tests
         [Test]
         public async Task DapperQueriesWithParametersMustExecuteSuccessfully_FailsWhenQueryFailsToExecute()
         {
-            var result = await new DapperQueriesWithParametersMustExecuteSuccessfully(TestDbConnectionString, new Type[0])
+            var result = await new DapperQueriesWithParametersMustExecuteSuccessfully(new SqlConnectionFactory(TestDbConnectionString), new Type[0])
                 .IsSatisfiedBy(typeof(FailingQueryWithParameter));
 
             result.Failures.ShouldBe(new[] { "Query Tailor.Tests.DapperConventionScenarios+FailingQueryWithParameter failed to execute with exception: Invalid column name 'ColumnThatDoesNotExist'.\r\n" });
@@ -175,7 +175,7 @@ namespace Tailor.Tests
 
             public override async Task<Widget> Execute(QueryParameter parameter)
             {
-                using (var connection = _connectionFactory.Connection)
+                using (var connection = _connectionFactory.Create())
                 {
                     return
                         (await connection.QueryAsync<Widget>(GetSql(), parameter.ToDapperParameters()))
@@ -191,7 +191,7 @@ namespace Tailor.Tests
         [Test]
         public async Task DapperQueriesWithParametersMustExecuteSuccessfully_Success()
         {
-            var result = await new DapperQueriesWithParametersMustExecuteSuccessfully(TestDbConnectionString, new Type[0])
+            var result = await new DapperQueriesWithParametersMustExecuteSuccessfully(new SqlConnectionFactory(TestDbConnectionString), new Type[0])
                 .IsSatisfiedBy(typeof(SucceedingQueryWithParameter));
 
             result.IsSatisfied.ShouldBeTrue();
@@ -209,7 +209,7 @@ namespace Tailor.Tests
             public override async Task<Widget> Execute(QueryParameter parameter)
             {
                 Widget result;
-                using (var connection = _connectionFactory.Connection)
+                using (var connection = _connectionFactory.Create())
                 {
                     result =
                         (await connection.QueryAsync<Widget>(GetSql(), parameter.ToDapperParameters()))
@@ -232,7 +232,7 @@ namespace Tailor.Tests
         [Test]
         public async Task DapperQueriesWithParametersMustExecuteSuccessfully_ShouldIgnoreExceptionalExceptions()
         {
-            var result = await new DapperQueriesWithParametersMustExecuteSuccessfully(TestDbConnectionString, new [] { typeof(NotFoundException) })
+            var result = await new DapperQueriesWithParametersMustExecuteSuccessfully(new SqlConnectionFactory(TestDbConnectionString), new [] { typeof(NotFoundException) })
                 .IsSatisfiedBy(typeof(SucceedingQueryWithParameterAndExceptionalException));
 
             result.IsSatisfied.ShouldBeTrue();
@@ -263,7 +263,7 @@ namespace Tailor.Tests
         [Test]
         public void DapperQueriesWithParametersMustHaveAParametersListThatMatchesTheDefinedSql_FailsWhenQueryParametersDoNotMatchSqlParameters()
         {
-            new DapperQueriesWithParametersMustHaveAParametersListThatMatchesTheDefinedSql(TestDbConnectionString)
+            new DapperQueriesWithParametersMustHaveAParametersListThatMatchesTheDefinedSql(new SqlConnectionFactory(TestDbConnectionString))
                 .IsSatisfiedBy(typeof(QueryWithWrongParameter))
                 .Failures
                 .ShouldBe(new [] { "Query Tailor.Tests.DapperConventionScenarios+QueryWithWrongParameter Sql should specify parameter @shouldnotwork found in Parameters Collection, but does not.\r\nQuery Tailor.Tests.DapperConventionScenarios+QueryWithWrongParameter Parameters Collection should contain parameter @id found in Sql, but does not.\r\n" });
@@ -294,7 +294,7 @@ namespace Tailor.Tests
         [Test]
         public void DapperQueriesWithParametersMustHaveAParametersListThatMatchesTheDefinedSql_Success()
         {
-            new DapperQueriesWithParametersMustHaveAParametersListThatMatchesTheDefinedSql(TestDbConnectionString)
+            new DapperQueriesWithParametersMustHaveAParametersListThatMatchesTheDefinedSql(new SqlConnectionFactory(TestDbConnectionString))
                 .IsSatisfiedBy(typeof(QueryWithCorrectParameter))
                 .IsSatisfied
                 .ShouldBeTrue();

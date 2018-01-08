@@ -8,16 +8,16 @@ namespace Tailor.Test
 {
     public class DapperQueriesWithParametersMustHaveAParametersListThatMatchesTheDefinedSql : ConventionSpecification
     {
-        private readonly string _connectionString;
+        private readonly IConnectionFactory _connectionFactory;
 
-        public DapperQueriesWithParametersMustHaveAParametersListThatMatchesTheDefinedSql(string connectionString)
+        public DapperQueriesWithParametersMustHaveAParametersListThatMatchesTheDefinedSql(IConnectionFactory connectionFactory)
         {
-            _connectionString = connectionString;
+            _connectionFactory = connectionFactory;
         }
 
         public override ConventionResult IsSatisfiedBy(Type type)
         {
-            var query = (IDapperQuery) Activator.CreateInstance(type, new ConnectionFactory(_connectionString));
+            var query = (IDapperQuery) Activator.CreateInstance(type, _connectionFactory);
             var queryParametersType = type.GetInterfaces()[0].GetGenericArguments()[0];
             var queryParameters = queryParametersType.GetProperties()
                 .Select(x => "@" + x.Name.ToLower())
