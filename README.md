@@ -2,7 +2,7 @@ Tailor [![Build status](https://ci.appveyor.com/api/projects/status/e3pxi66m30ow
 ============
 A set of opinionated Query abstractions and accompanying Convention Tests to make sure your Dapper queries measure up!
 
-Tailor 1.x targets .NET Standard 2.0
+Tailor 1.x and up targets .NET Standard 2.0
 
 <img src="https://raw.github.com/andrewabest/Tailor/master/suit.png" width="15%">
 
