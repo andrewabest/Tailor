@@ -13,11 +13,6 @@ namespace Tailor.Test
         private readonly IEnumerable<Type> _dapperQueriesThatHaveNoParameters;
         private readonly IEnumerable<Type> _dapperQueryParameters;
 
-        protected TheTailor(string connectionString, IEnumerable<Type> dapperQueries, IEnumerable<Type> dapperQueriesThatHaveNoParameters, IEnumerable<Type> dapperQueryParameters)
-            : this(new SqlConnectionFactory(connectionString), dapperQueries, dapperQueriesThatHaveNoParameters, dapperQueryParameters)
-        {
-        }
-
         protected TheTailor(IConnectionFactory connectionFactory, IEnumerable<Type> dapperQueries, IEnumerable<Type> dapperQueriesThatHaveNoParameters, IEnumerable<Type> dapperQueryParameters)
         {
             _connectionFactory = connectionFactory;
@@ -28,18 +23,23 @@ namespace Tailor.Test
 
         public static TheTailor Create(string connectionString, Type[] exportedAssemblyTypes)
         {
+            return Create(new SqlConnectionFactory(connectionString), exportedAssemblyTypes);
+        }
+
+        public static TheTailor Create(IConnectionFactory connectionFactory, Type[] exportedAssemblyTypes)
+        {
             var dapperQueries = exportedAssemblyTypes
                 .Where(x => typeof(IDapperQuery).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
                 .ThatHaveParameters();
 
-            var  dapperQueriesThatHaveNoParameters = exportedAssemblyTypes
+            var dapperQueriesThatHaveNoParameters = exportedAssemblyTypes
                 .Where(x => typeof(IDapperQuery).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
                 .ThatHaveNoParameters();
 
             var dapperQueryParameters = exportedAssemblyTypes
                 .Where(x => typeof(IQueryParameters).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract);
 
-            return new TheTailor(connectionString, dapperQueries, dapperQueriesThatHaveNoParameters,
+            return new TheTailor(connectionFactory, dapperQueries, dapperQueriesThatHaveNoParameters,
                 dapperQueryParameters);
         }
 

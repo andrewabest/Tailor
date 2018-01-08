@@ -16,6 +16,12 @@ namespace Tailor
 
         public IDbConnection Create()
         {
+            if (_connection != null)
+            {
+                _connection.Close();
+                _connection.Dispose();
+            }
+
             _connection = new SqlConnection(_connectionString);
             _connection.Open();
             return _connection;
