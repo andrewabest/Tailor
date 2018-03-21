@@ -25,7 +25,7 @@ namespace Tailor.Test
         {
             if (string.IsNullOrWhiteSpace(connectionString))
             {
-                throw new ArgumentNullException($"A valid connection string is required when creating {nameof(TheTailor)}");
+                throw new ArgumentException($"A valid connection string is required when creating {nameof(TheTailor)}");
             }
 
             return Create(new SqlConnectionFactory(connectionString), exportedAssemblyTypes);
