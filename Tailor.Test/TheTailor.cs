@@ -23,6 +23,11 @@ namespace Tailor.Test
 
         public static TheTailor Create(string connectionString, Type[] exportedAssemblyTypes)
         {
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                throw new ArgumentException($"A valid connection string is required when creating {nameof(TheTailor)}");
+            }
+
             return Create(new SqlConnectionFactory(connectionString), exportedAssemblyTypes);
         }
 
