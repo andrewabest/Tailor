@@ -8,11 +8,11 @@ Tailor 1.x and up targets .NET Standard 2.0
 
 ## To install from NuGet
 
-    Install-Package Tailor -Pre
+    Install-Package Tailor
 
 And then in your test project...
 
-    Install-Package Tailor.Test -Pre
+    Install-Package Tailor.Test
 
 ## What is it?
 
