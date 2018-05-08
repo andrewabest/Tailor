@@ -1,4 +1,4 @@
-Tailor [![Build status](https://ci.appveyor.com/api/projects/status/e3pxi66m30owoekw?svg=true)](https://ci.appveyor.com/project/andrewabest/tailor)
+Tailor [![Build status](https://ci.appveyor.com/api/projects/status/e3pxi66m30owoekw?svg=true)](https://ci.appveyor.com/project/andrewabest/tailor) [![NuGet](https://img.shields.io/nuget/v/Tailor.svg)](Tailor)
 ============
 A set of opinionated Query abstractions and accompanying Convention Tests to make sure your Dapper queries measure up!
 
