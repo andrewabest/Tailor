@@ -1,8 +1,8 @@
-Tailor [![Build status](https://ci.appveyor.com/api/projects/status/e3pxi66m30owoekw?svg=true)](https://ci.appveyor.com/project/andrewabest/tailor) [![NuGet](https://img.shields.io/nuget/v/Tailor.svg)](Tailor)
+Tailor [![Build status](https://ci.appveyor.com/api/projects/status/e3pxi66m30owoekw?svg=true)](https://ci.appveyor.com/project/andrewabest/tailor) [![NuGet](https://img.shields.io/nuget/v/Tailor.svg)](https://www.nuget.org/packages/Tailor/)
 ============
 A set of opinionated Query abstractions and accompanying Convention Tests to make sure your Dapper queries measure up!
 
-Tailor 1.x and up targets .NET Standard 2.0
+Tailor targets .NET Standard 2.0
 
 <img src="https://raw.github.com/andrewabest/Tailor/master/suit.png" width="15%">
 
