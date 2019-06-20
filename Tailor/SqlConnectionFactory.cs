@@ -37,7 +37,10 @@ namespace Tailor
         {
             if (disposing)
             {
-                _connection.Close();
+                if (_connection != null) 
+                {
+                    _connection.Close();
+                }
             }
         }
     }
